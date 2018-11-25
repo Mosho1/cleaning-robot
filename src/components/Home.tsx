@@ -50,6 +50,7 @@ class Home extends React.Component<{ appState: AppState }, any> {
             <div>Y: <input onChange={this.onChangeY} value={params.y}></input></div>
           </div>
           <button onClick={this.onClick}>Start</button>
+          <div>{percentageCleaned === 1 && 'All clean!'}</div>
         </div>
       </div>
     );
