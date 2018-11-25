@@ -22,3 +22,7 @@
 .tableAndButton {
     text-align: center;
 }
+
+.coordinates {
+    margin: 10px auto;
+}

@@ -14,6 +14,12 @@ interface RobotState {
   matrix: (' ' | '\n' | 'X' | '#')[][] | null;
 }
 
+interface RobotParams {
+  map: string;
+  x: string;
+  y: string;
+}
+
 export interface AppStateProps {
   robotState: RobotState;
 }
@@ -24,7 +30,9 @@ export interface AppStateProps {
 class AppState implements AppStateProps {
   @observable timer = 0;
   @observable message = '';
-  @observable params = {
+  @observable params: RobotParams = {
+    x: '1',
+    y: '1',
     map: `#######
 #     #
 # #   #
@@ -57,6 +65,14 @@ class AppState implements AppStateProps {
 
   @action start() {
     this.socket.send(JSON.stringify(this.params));
+  }
+
+  @action setX(x: string) {
+    this.params.x = x;
+  }
+
+  @action setY(y: string) {
+    this.params.y = y;
   }
 
   @action setMap(map: string) {

@@ -14,6 +14,14 @@ class Home extends React.Component<{ appState: AppState }, any> {
     this.props.appState.setMap(e.target.value)
   }
 
+  onChangeX = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.appState.setX(e.target.value)
+  }
+
+  onChangeY = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.appState.setY(e.target.value)
+  }
+
   render() {
     const { robotState, params } = this.props.appState;
     const { duration, startTimeString, tilesCleaned, tilesToClean, x, y, percentageCleaned, matrix } = robotState;
@@ -36,6 +44,11 @@ class Home extends React.Component<{ appState: AppState }, any> {
             </tr>
           )}</tbody></table>}
           <textarea onChange={this.onChangeMap} value={params.map}></textarea>
+          <div className={style.coordinates}>
+            <div>Start coordinates:</div>
+            <div>X: <input onChange={this.onChangeX} value={params.x}></input></div>
+            <div>Y: <input onChange={this.onChangeY} value={params.y}></input></div>
+          </div>
           <button onClick={this.onClick}>Start</button>
         </div>
       </div>

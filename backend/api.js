@@ -20,7 +20,7 @@ module.exports.api = () => {
             ws.on('close', () => {
                 robot.removeAllListeners();
             });
-            await robot.clean(1, 1);
+            await robot.clean(Number(params.x), Number(params.y));
         });
     });
     const aWss = eWs.getWss('/robot');

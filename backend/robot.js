@@ -114,7 +114,9 @@ module.exports.Robot = class Robot extends EventEmitter {
             await dfs(0, -1);
             await dfs(0, 1);
 
-            await this.moveTo(this.state.x - dx, this.state.y - dy);
+            if (!this.allClean()) {
+                await this.moveTo(this.state.x - dx, this.state.y - dy);
+            }
 
             await this.emitState();
         };
