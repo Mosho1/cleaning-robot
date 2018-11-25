@@ -1,9 +1,10 @@
 const EventEmitter = require('events');
 
 module.exports.Robot = class Robot extends EventEmitter {
-    constructor(params) {
+    constructor() {
         super();
-        this.params = params;
+        this.movementDuration = 200;
+        this.cleaningDuration = 0;
     }
 
     getMatrixFromMap(map) {
@@ -29,7 +30,12 @@ module.exports.Robot = class Robot extends EventEmitter {
     isDirtyTile(x, y) {
         const { matrix } = this.state;
         const tile = matrix[y][x];
-        return tile !== '#' && tile !== 'X' && y < this.rows && x < this.cols;
+        return tile !== '#' &&
+            tile !== 'X' &&
+            y >= 0 && x >= 0 &&
+            y < this.rows &&
+            x < this.cols;
+
     }
 
     allClean() {
@@ -46,15 +52,14 @@ module.exports.Robot = class Robot extends EventEmitter {
         });
 
         this.state.matrix[this.state.y][this.state.x] = 'X';
-
-        return new Promise(resolve => setTimeout(resolve, 50));
+        return new Promise(resolve => setTimeout(resolve, this.cleaningDuration));
     }
 
     moveTo(x, y) {
         Object.assign(this.state, {
             x, y
         });
-        return new Promise(resolve => setTimeout(resolve, 50));
+        return new Promise(resolve => setTimeout(resolve, this.movementDuration));
     }
 
     emitState() {

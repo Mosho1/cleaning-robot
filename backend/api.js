@@ -8,10 +8,13 @@ module.exports.api = () => {
     const eWs = expressWs(express());
 
     eWs.app.ws('/robot', function (ws, req) {
+        let robot;
         ws.on('message', async (data) => {
+            if (robot) {
+                robot.removeAllListeners();
+            }
+            robot = new Robot();
             const params = JSON.parse(data);
-            console.log(params);
-            const robot = new Robot(params);
             robot.loadMap(params.map);
             robot.addListener('state', state => ws.send(JSON.stringify(state)));
             ws.on('close', () => {

@@ -9,6 +9,8 @@
 
 Websockets are used for server-client communication. The client sends the map to the backend, and the backend runs the cleaning robot, emitting its state over the websocket. The frontend displays the state over time.
 
+The robot algorithm is a DFS algorithm with backtracking. 
+
 The relevant backend code is under `backend/` and the main part of the UI is in `src/components/Home.tsx`.
 
 ### Stack
