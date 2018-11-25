@@ -1,82 +1,25 @@
-# React MobX Boilerplate
- 
-A modern web development boilerplate for React + MobX + Webpack 4.
-## Stack
+### To run:
 
-* React
-* MobX
-* Webpack 4
-* Typescript
-* PostCSS + CSS Modules
+1. Make sure node.js version 8 at least is installed
+2. Run `npm i`
+3. Run `npm start`
+4. Go to `localhost:3000`
 
-## Features
+### Implementation
 
-* HMR of components and store
-* Code-splitting out of the box
-* Simple routing (without react-router)
-* Server-side rendering with async data loading
+Websockets are used for server-client communication. The client sends the map to the backend, and the backend runs the cleaning robot, emitting its state over the websocket. The frontend displays the state over time.
 
-## Installation and Starting
+The relevant backend code is under `backend/` and the main part of the UI is in `src/components/Home.tsx`.
 
-### Development server
-```
-npm start
-> visit localhost:3000
-```
+### Stack
 
-### Building for production
-```
-npm run build
-> serve index.html
-```
+##### Backend
 
-### Building for node (server-side rendering)
-```
-npm run build-node
-> require('build/app.node.js').default('/users')
-```
+1. express
 
+##### Frontend
 
-## Structure
-
-During app development, you should care about these files:
-
-```
-react-mobx-boilerplate/
-└───src/
-    │
-    └───components/
-    |     Core.tsx
-    |     ...
-    |
-    └───stores/
-    |     AppState.ts
-    |
-    └───routes.tsx
-```
-
-The rest can be extended if needed:
-
-1. `index.html`
-1. `index.ts` - Entry point for browser bundle
-1. `index.node.ts` - Entry point for node (server-side rendering) bundle
-1. `App.ts` - Manages routing, contains a reference to AppState
-1. `root.tsx` - Container component for the app
-1. `webpack/webpack-dev-server.js` - Script to run the development server
-1. `webpack/webpack.config.js` - Webpack configuration for browser bundle
-1. `webpack/webpack.config.node.js` - Webpack configuration for node (server-side rendering) bundle
-
-Typically, when adding a new page you'd add a route for it in `routes.tsx` containing the component to render. Note that the component isn't imported directly but with import() for code splitting. Then you can add the component to the components folder and the relevant state to the store.
-
-This project is a boilerplate and does not impose strong architectural decisions on users.
-
-
-## TODO
-
-- [x] Full SSR workflow
-- [x] Optimize bundles
-- [x] Static assets (images etc.)
-- [ ] Make work with remote chrome debugging
-- [ ] Add linter
-- [ ] Add PostCSS plugins
-- [x] Use webpack-dev-middleware instead of webpack-dev-server
+1. TypeScript
+1. React
+1. MobX
+1. Webpack

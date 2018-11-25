@@ -12,12 +12,6 @@ import mobx from './mobx.png';
 
 const Core = ({ children }) =>
   <div>
-    <div><img width={50} height={50} src={mobx} /></div>
-    <nav>
-      <Link href="/">Home</Link>
-      <Link href='/about'>About</Link>
-      <Link href='/users'>Users</Link>
-    </nav>
     <main className={styles.scopedClassName}>
       {children}
     </main>

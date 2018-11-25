@@ -1,7 +1,6 @@
 {
-  "name": "react-mobx-boilerplate",
+  "name": "cleaning-robot",
   "version": "0.0.1",
-  "description": "A react boilerplate project featuring webpack, HMR, code splitting, mobx, SSR",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development node webpack/webpack-dev-server --env.dev",
@@ -9,13 +8,9 @@
     "build-browser": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js --progress --env.prod",
     "build-node": "cross-env NODE_ENV=development webpack --config webpack/webpack.config.node.js --progress --env.dev"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mobxjs/react-mobx-boilerplate.git"
-  },
   "author": "Sharon Rolel <sharonrolel@gmail.com>",
-  "homepage": "https://github.com/mobxjs/react-mobx-boilerplate",
-  "dependencies": {    
+  "dependencies": {
+    "express-ws": "^4.0.0",
     "mobx": "4.3.1",
     "mobx-react": "5.2.3",
     "react": "16.4.1",

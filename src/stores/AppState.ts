@@ -2,8 +2,20 @@ import { observable, action } from 'mobx';
 
 const hasWindow = typeof window !== 'undefined';
 
+interface RobotState {
+  x: number | null;
+  y: number | null;
+  tilesCleaned: number;
+  percentageCleaned: number;
+  tilesToClean: number;
+  startTime: Date;
+  startTimeString: string;
+  duration: number;
+  matrix: (' ' | '\n' | 'X' | '#')[][] | null;
+}
+
 export interface AppStateProps {
-  timer: number;
+  robotState: RobotState;
 }
 
 /*
@@ -12,34 +24,58 @@ export interface AppStateProps {
 class AppState implements AppStateProps {
   @observable timer = 0;
   @observable message = '';
+  @observable params = {
+    map: `#######
+#     #
+# #   #
+#   # #
+#######`
+  };
+
+  @observable robotState = {
+    x: null,
+    y: null,
+    tilesCleaned: 0,
+    tilesToClean: 0,
+    startTime: null,
+    startTimeString: '',
+    duration: 0,
+    percentageCleaned: 0,
+    matrix: null
+  };
 
   intervalId: any;
 
+  socket: WebSocket;
+
   constructor() {
     if (hasWindow) {
-      this.intervalId = setInterval(this.incrementTimer, 1000);
+      this.socket = new WebSocket(`ws://${location.host}/robot`);
+      this.socket.onmessage = this.handleMessage;
     }
   }
 
-  @action incrementTimer = () => {
-    this.timer += 1;
+  @action start() {
+    this.socket.send(JSON.stringify(this.params));
   }
 
-  @action setMessage(message: string) {
-    this.message = message;
+  @action setMap(map: string) {
+    this.params.map = map;
   }
 
-  @action resetTimer() {
-    this.timer = 0;
+  @action handleMessage = ({ data }) => {
+    const robotState = JSON.parse(data);
+    this.robotState = robotState;
   }
 
-  reload(store: AppStateProps) {
-    Object.assign(this, store);
+  reload(store?: AppStateProps) {
+    if (store)
+      this.robotState = store.robotState;
     return this;
   }
 
   unload() {
-    clearInterval(this.intervalId);
+    this.socket.close();
   }
 }
 

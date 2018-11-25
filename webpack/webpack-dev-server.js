@@ -10,6 +10,7 @@ const history = require('connect-history-api-fallback');
 const path = require('path');
 const webpackConfig = require('./webpack.config');
 const opn = require('opn');
+const api = require('../backend/api').api;
 
 /**
  * Always dev enviroment when running webpack dev server
@@ -27,7 +28,7 @@ const env = {
 const devServerConfig = {};
 
 try {
-  const app = express();
+  const app = api();
   const compiler = webpack(webpackConfig(env));
   const devMiddleware = WebpackDevMiddleware(compiler, devServerConfig);
   const hotMiddleware = WebpackHotMiddleware(compiler);
@@ -39,7 +40,7 @@ try {
       console.error(err);
     }
     console.log(`Server listening to port ${port}`);
-    opn(`http://localhost:${port}`);
+    // opn(`http://localhost:${port}`);
   });
 } catch (e) {
   console.error(e);

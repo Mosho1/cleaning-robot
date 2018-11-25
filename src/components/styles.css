@@ -2,3 +2,22 @@
     color: blue;
     font-family: arial;
 }
+
+.home table {
+    margin: 20px auto;
+}
+
+.home textarea {
+    display: block;
+    margin: 20px auto;
+    height: 150px;
+    width: 200px;
+}
+
+.home table td {
+    width: 20px;
+}
+
+.tableAndButton {
+    text-align: center;
+}

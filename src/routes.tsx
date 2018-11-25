@@ -35,27 +35,7 @@ export const defaultRoute: Route = {
   }
 };
 
-routes = [{
-  route: '/users/?:id?',
-  async onEnter(appState, params: { id?: string }) {
-    appState.setMessage('');
-    if (params.id) { // simuate additional fetching that needs to happen after route loads
-      appState.setMessage(`fetching data for user ${params.id}...`);
-      await new Promise(r => setTimeout(r, 500));
-      appState.setMessage(`data fetched for user ${params.id}`);
-    }
-  },
-  async getComponent(appState, params: { id: string }) {
-    const Users = await getRoute(import('./components/Users'));
-    return <Users id={params.id} appState={appState} />;
-  }
-}, {
-  route: '/about',
-  async getComponent(appState, params) {
-    const About = await getRoute(import('./components/About'));
-    return <About />;
-  }
-}];
+routes = [];
 
 export default routes;
 
