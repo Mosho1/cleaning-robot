@@ -8,7 +8,19 @@ module.exports.Robot = class Robot extends EventEmitter {
     }
 
     getMatrixFromMap(map) {
-        return map.split('\n').map(line => [...line]);
+        const lines = map.split('\n');
+        const numCols = lines[0].length;
+        return lines.map(line => {
+            const row = [];
+            // this handles the case of an empty line in the input e.g.
+            // ####
+            // 
+            // ####
+            for (let i = 0; i < numCols; i++) {
+                row.push(line[i] || ' ')
+            }
+            return row;
+        });
     }
 
     getNumDirtyTiles(map) {
@@ -30,6 +42,7 @@ module.exports.Robot = class Robot extends EventEmitter {
     isDirtyTile(x, y) {
         const { matrix } = this.state;
         const tile = matrix[y][x];
+        // edges of the matrix are treated as walls
         return tile !== '#' &&
             tile !== 'X' &&
             y >= 0 && x >= 0 &&
