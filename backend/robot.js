@@ -100,22 +100,24 @@ module.exports.Robot = class Robot extends EventEmitter {
         if (!matrix) throw new Error('must call loadMap first');
         if (!this.isDirtyTile(startX, startY)) throw new Error('invalid start position');
         await this.moveTo(startX, startY);
-        const dfs = async (x, y, fromX, fromY) => {
+        const dfs = async (dx, dy) => {
+            const x = this.state.x + dx;
+            const y = this.state.y + dy;
+
             if (!this.isDirtyTile(x, y)) return;
             await this.moveTo(x, y);
             await this.cleanTile();
             await this.emitState();
-            if (this.allClean()) {
-                return;
-            }
-            await dfs(x - 1, y, x, y);
-            await dfs(x + 1, y, x, y);
-            await dfs(x, y + 1, x, y);
-            await dfs(x, y - 1, x, y);
 
-            await this.moveTo(fromX, fromY);
+            await dfs(-1, 0);
+            await dfs(1, 0);
+            await dfs(0, -1);
+            await dfs(0, 1);
+
+            await this.moveTo(this.state.x - dx, this.state.y - dy);
+
             await this.emitState();
         };
-        return dfs(startX, startY);
+        return dfs(0, 0);
     }
 }
