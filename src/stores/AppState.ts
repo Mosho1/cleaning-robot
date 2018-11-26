@@ -6,8 +6,8 @@ interface RobotState {
   x: number | null;
   y: number | null;
   tilesCleaned: number;
-  percentageCleaned: number;
   tilesToClean: number;
+  stepsTaken: number;
   startTime: Date;
   startTimeString: string;
   duration: number;
@@ -45,10 +45,10 @@ class AppState implements AppStateProps {
     y: null,
     tilesCleaned: 0,
     tilesToClean: 0,
+    stepsTaken: 0,
     startTime: null,
     startTimeString: '',
     duration: 0,
-    percentageCleaned: 0,
     matrix: null
   };
 

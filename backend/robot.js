@@ -60,16 +60,14 @@ module.exports.Robot = class Robot extends EventEmitter {
     }
 
     allClean() {
-        return this.state.percentageCleaned === 1;
+        return this.state.tilesCleaned / this.state.tilesToClean === 1;
     }
 
     cleanTile() {
         const tilesCleaned = this.state.tilesCleaned + 1;
-        const percentageCleaned = tilesCleaned / this.state.tilesToClean;
 
         Object.assign(this.state, {
             tilesCleaned,
-            percentageCleaned
         });
 
         this.state.matrix[this.state.y][this.state.x] = 'X';
@@ -78,7 +76,7 @@ module.exports.Robot = class Robot extends EventEmitter {
 
     moveTo(x, y) {
         Object.assign(this.state, {
-            x, y
+            x, y, stepsTaken: this.state.stepsTaken + 1
         });
         return new Promise(resolve => setTimeout(resolve, this.movementDuration));
     }
@@ -92,9 +90,9 @@ module.exports.Robot = class Robot extends EventEmitter {
         const matrix = this.getMatrixFromMap(map);
         this.state = {
             tilesCleaned: 0,
-            percentageCleaned: 0,
             efficiency: 0,
             duration: 0,
+            stepsTaken: 0,
             startTime: new Date(),
             startTimeString: new Date().toString(),
             x: null,

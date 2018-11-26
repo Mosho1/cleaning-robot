@@ -24,7 +24,9 @@ class Home extends React.Component<{ appState: AppState }, any> {
 
   render() {
     const { robotState, params } = this.props.appState;
-    const { duration, startTimeString, tilesCleaned, tilesToClean, x, y, percentageCleaned, matrix } = robotState;
+    const { duration, startTimeString, stepsTaken, tilesCleaned, tilesToClean, x, y, matrix } = robotState;
+    const percentageCleaned = tilesCleaned / tilesToClean || 0;
+    const efficiency = tilesCleaned / stepsTaken || 0;
     return (
       <div className={style.home}>
         <h1>
@@ -34,6 +36,8 @@ class Home extends React.Component<{ appState: AppState }, any> {
         <div>Duration: {duration}ms</div>
         <div>Tiles Cleaned: {tilesCleaned}/{tilesToClean}</div>
         <div>Percentage Cleaned: {(100 * percentageCleaned).toString().slice(0, 5)}%</div>
+        <div>Steps taken: {stepsTaken}</div>
+        <div>Efficiency: {(100 * efficiency).toString().slice(0, 5)}%</div>
         <div className={style.tableAndButton}>
           {matrix && <table><tbody>{matrix.map((row, j) =>
             <tr key={j}>
