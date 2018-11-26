@@ -23,8 +23,11 @@ module.exports.Robot = class Robot extends EventEmitter {
         });
     }
 
-    getNumDirtyTiles(map) {
-        return map.split(' ').length - 1;
+    getNumDirtyTiles(matrix) {
+        return matrix.reduce(
+            (sum, row) =>
+                sum + row.filter(x => x === ' ').length,
+            0);
     }
 
     get rows() {
@@ -41,13 +44,18 @@ module.exports.Robot = class Robot extends EventEmitter {
 
     isDirtyTile(x, y) {
         const { matrix } = this.state;
-        const tile = matrix[y][x];
         // edges of the matrix are treated as walls
+        if (y < 0 ||
+            x < 0 ||
+            y >= this.rows ||
+            x >= this.cols) {
+            return false;
+        }
+
+        const tile = matrix[y][x];
+
         return tile !== '#' &&
-            tile !== 'X' &&
-            y >= 0 && x >= 0 &&
-            y < this.rows &&
-            x < this.cols;
+            tile !== 'X';
 
     }
 
@@ -81,6 +89,7 @@ module.exports.Robot = class Robot extends EventEmitter {
     }
 
     resetState(map) {
+        const matrix = this.getMatrixFromMap(map);
         this.state = {
             tilesCleaned: 0,
             percentageCleaned: 0,
@@ -90,8 +99,8 @@ module.exports.Robot = class Robot extends EventEmitter {
             startTimeString: new Date().toString(),
             x: null,
             y: null,
-            tilesToClean: this.getNumDirtyTiles(map),
-            matrix: this.getMatrixFromMap(map)
+            tilesToClean: this.getNumDirtyTiles(matrix),
+            matrix
         };
     }
 
