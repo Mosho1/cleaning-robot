@@ -9,7 +9,7 @@ module.exports.Robot = class Robot extends EventEmitter {
 
     getMatrixFromMap(map) {
         const lines = map.split('\n');
-        const numCols = lines[0].length;
+        const numCols = Math.max(...lines.map(line => line.length));
         return lines.map(line => {
             const row = [];
             // this handles the case of an empty line in the input e.g.
